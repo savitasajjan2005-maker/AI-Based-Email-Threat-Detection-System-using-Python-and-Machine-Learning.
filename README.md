@@ -1,35 +1,149 @@
-# AI Email Threat Detection System
+# 🛡️ AI-Powered Email Threat Detection System
 
-A small Python + Machine Learning web prototype. It classifies pasted email text as phishing or legitimate, displays an estimated threat score, and highlights suspicious phrases and links.
+An AI-based web application that detects potentially phishing and legitimate emails using Machine Learning. The system provides email threat analysis, secure user authentication, scan history, and security analytics through an interactive Streamlit dashboard.
 
-## Windows setup (PowerShell)
+## 🚀 Features
 
-1. Extract the ZIP to Documents or Desktop, **not** `C:\Program Files`.
-2. Open this folder in VS Code, then Terminal > New Terminal.
-3. Create a virtual environment:
-   `py -3.11 -m venv .venv`
-   If Python 3.11 is unavailable, use `py -m venv .venv` with an installed compatible Python.
-4. Activate:
-   `.\.venv\Scripts\Activate.ps1`
-   If blocked, run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`, then activate again.
-5. Install:
-   `python -m pip install --upgrade pip`
-   `pip install -r requirements.txt`
-6. Train:
-   `python train_model.py`
-7. Run:
-   `streamlit run app.py`
+### 1. User Authentication
+- User registration and login.
+- Mathematical CAPTCHA verification.
+- Password hashing for secure password storage.
+- Logout functionality.
 
-## Demo examples
+### 2. AI Email Threat Detection
+- Classifies emails as Phishing or Legitimate.
+- Uses TF-IDF for text feature extraction.
+- Uses Logistic Regression for classification.
+- Calculates an estimated threat score.
+- Identifies suspicious keywords.
 
-Phishing: `URGENT: Your bank account is suspended. Verify your identity immediately at http://secure-bank.example to avoid closure.`
+### 3. Suspicious URL Detection
+- Extracts URLs from email content.
+- Identifies suspicious URL patterns.
+- Displays detected links for manual inspection.
 
-Legitimate: `Hi team, please find the meeting agenda attached. Our meeting is scheduled for 10 AM tomorrow.`
+### 4. Email Scan History
+- Stores email scan records in SQLite.
+- Displays previous predictions.
+- Shows threat scores and scan dates.
 
-## How it works
+### 5. Security Analytics Dashboard
+- Displays total emails scanned.
+- Counts phishing and legitimate emails.
+- Calculates phishing detection percentage.
+- Visualizes email threat distribution using a pie chart.
 
-Email text -> TF-IDF vectorizer -> Logistic Regression classifier -> prediction and phishing score -> visible indicators in Streamlit.
+## 🛠️ Technologies Used
 
-## Limitations
+| Technology | Purpose |
+|---|---|
+| Python | Programming language |
+| Streamlit | Web application interface |
+| Scikit-learn | Machine Learning |
+| Pandas | Data processing |
+| Plotly | Data visualization |
+| SQLite | Database |
+| TF-IDF | Text feature extraction |
+| Logistic Regression | Email classification |
+| Joblib | Model storage |
 
-The bundled CSV is a small teaching dataset. Results and accuracy are not representative of real email traffic. The score is not a calibrated probability. This prototype does not inspect email headers, attachments, sender reputation, redirects, or malware. Never rely on it alone for security decisions and never paste confidential messages, passwords, or OTPs.
+## 📁 Project Structure
+
+```text
+AI_Email_Threat_Detection/
+│
+├── app.py
+├── train_model.py
+├── history.py
+├── requirements.txt
+├── README.md
+│
+├── data/
+│   └── emails.csv
+│
+├── models/
+│   └── email_detector.joblib
+│
+└── users.db
+```
+
+`users.db` is generated locally when the application runs and should not be uploaded to GitHub.
+
+## ⚙️ Installation and Setup
+
+### Step 1: Clone the repository
+
+```bash
+git clone https://github.com/savitasajjan2005-maker/savita-.git
+```
+
+### Step 2: Open the project folder
+
+```bash
+cd savita-
+```
+
+### Step 3: Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+### Step 4: Activate the virtual environment
+
+Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+### Step 5: Install dependencies
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### Step 6: Train the Machine Learning model
+
+```bash
+python train_model.py
+```
+
+### Step 7: Run the application
+
+```bash
+python -m streamlit run app.py
+```
+
+The application will open in your browser.
+
+## 📊 How It Works
+
+1. The user registers or logs in using the authentication page.
+2. The user enters an email subject and message.
+3. The application extracts text features using TF-IDF.
+4. The trained Logistic Regression model predicts the email category.
+5. The system calculates an estimated threat score.
+6. Suspicious keywords and URLs are identified.
+7. Scan results are stored in the SQLite database.
+8. The analytics dashboard displays email security statistics.
+
+## 🔮 Future Enhancements
+
+- Explainable AI for better prediction transparency.
+- Advanced malicious URL analysis.
+- Email attachment scanning.
+- PDF security report generation.
+- Admin dashboard and user management.
+- Improved phishing detection using larger datasets.
+
+## ⚠️ Disclaimer
+
+This project is an educational Machine Learning prototype. Its predictions and threat scores are estimates and are not guaranteed to identify all phishing attacks. Do not use it as the sole method of real-world email security.
+
+## 👩‍💻 Project Information
+
+**Project:** AI-Powered Email Threat Detection System  
+**Domain:** Artificial Intelligence and Machine Learning  
+**Interface:** Streamlit  
+**Language:** Python
