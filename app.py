@@ -1,4 +1,15 @@
+from history import (
+    create_history_table,
+    save_scan,
+    get_history,
+    get_analytics
+)
 
+import plotly.express as px
+import pandas as pd
+from history import create_history_table, save_scan, get_history
+
+create_history_table()
 from pathlib import Path
 import hashlib
 import hmac
@@ -275,7 +286,7 @@ def show_authentication():
         if st.button("Refresh Registration CAPTCHA"):
             st.session_state["register_captcha"] = generate_captcha()
             st.rerun()
-
+    
     st.divider()
 
     st.caption(
@@ -426,6 +437,11 @@ def show_dashboard():
             )
 
             risk = pred == "phishing" or score >= 55
+            save_scan(
+                st.session_state.get("email", "Unknown"),
+                pred,
+                score
+            )
 
             st.subheader("Result")
 
@@ -498,6 +514,73 @@ def show_dashboard():
                 st.info(
                     "A legitimate-looking result does not guarantee safety."
                 )
+    
+    # Security Analytics Dashboard
+
+    st.divider()
+    st.header("📊 Security Analytics Dashboard")
+
+    analytics = get_analytics()
+
+    phishing_count = analytics.get("phishing", 0)
+    legitimate_count = analytics.get("legitimate", 0)
+
+    total_scans = phishing_count + legitimate_count
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric("Total Emails Scanned", total_scans)
+    col2.metric("Phishing Detected", phishing_count)
+    col3.metric("Legitimate Emails", legitimate_count)
+
+    if total_scans > 0:
+
+        phishing_percentage = (
+            phishing_count / total_scans
+        ) * 100
+
+        st.metric(
+            "Phishing Detection Percentage",
+            f"{phishing_percentage:.1f}%"
+        )
+
+        chart_data = pd.DataFrame({
+            "Email Type": ["Phishing", "Legitimate"],
+            "Count": [phishing_count, legitimate_count]
+        })
+
+        fig = px.pie(
+            chart_data,
+            names="Email Type",
+            values="Count",
+            title="Email Threat Distribution",
+            hole=0.4
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+    else:
+        st.info("Analyse some emails to view analytics.")
+
+    # Email Scan History
+    st.divider()
+    st.subheader("📜 Email Scan History")
+
+    history = get_history()
+
+    if history:
+        for record in history:
+            st.write("Prediction:", record[2])
+            st.write("Threat Score:", record[3])
+            st.write("Date:", record[4])
+            st.divider()
+    else:
+        st.info("No scan history available.")
+
+    st.caption(
+        "Demo model trained on a small sample dataset. "
+        "Not suitable for real-world security decisions."
+    )
 
     st.divider()
 
