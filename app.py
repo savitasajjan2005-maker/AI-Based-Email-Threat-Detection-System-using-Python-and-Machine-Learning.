@@ -39,6 +39,20 @@ st.markdown(
             #080d1b;
         color: #f8fafc;
     }
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4,
+    .stApp h5, .stApp h6, .stApp p, .stApp label,
+    .stApp [data-testid="stMarkdownContainer"],
+    .stApp [data-testid="stCaptionContainer"],
+    .stApp [data-testid="stMetricLabel"],
+    .stApp [data-testid="stMetricValue"],
+    .stApp [data-testid="stMetricDelta"] {
+        color: #fff !important;
+    }
+    [data-testid="stMarkdownContainer"] p,
+    [data-testid="stMarkdownContainer"] span,
+    [data-testid="stText"] {
+        color: #fff !important;
+    }
     .block-container { padding-top: 2rem; padding-bottom: 2rem; }
     .hero-panel {
         min-height: 590px; padding: 45px 35px; border-radius: 28px;
@@ -50,17 +64,35 @@ st.markdown(
     .brand-name { font-size: 25px; font-weight: 800; letter-spacing: .5px; }
     .hero-title { font-size: 42px; line-height: 1.2; font-weight: 800; margin: 35px 0 18px; }
     .hero-title span { color: #a78bfa; }
-    .hero-description { color: #cbd5e1; font-size: 16px; line-height: 1.8; }
+    .hero-description { color: #fff; font-size: 16px; line-height: 1.8; }
     .feature-item {
         background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08);
-        padding: 13px 16px; border-radius: 14px; margin-top: 12px; color: #e2e8f0;
+        padding: 13px 16px; border-radius: 14px; margin-top: 12px; color: #fff;
     }
-    .stTextInput input {
+    .stTextInput input, .stTextArea textarea {
         background: #111a2e !important; color: #fff !important;
         border: 1px solid #293650 !important; border-radius: 12px !important;
         padding: 12px !important;
+        -webkit-text-fill-color: #fff !important;
     }
-    .stTextInput input:focus {
+    [data-testid="stTextInput"] label, [data-testid="stTextArea"] label,
+    [data-testid="stTextInput"] p, [data-testid="stTextArea"] p {
+        color: #f8fafc !important;
+    }
+    [data-testid="stTextInput"] input::placeholder,
+    [data-testid="stTextArea"] textarea::placeholder {
+        color: #cbd5e1 !important;
+        -webkit-text-fill-color: #cbd5e1 !important;
+        opacity: 1;
+    }
+    [data-testid="stTextInput"] input:-webkit-autofill,
+    [data-testid="stTextInput"] input:-webkit-autofill:hover,
+    [data-testid="stTextInput"] input:-webkit-autofill:focus {
+        -webkit-text-fill-color: #fff !important;
+        caret-color: #fff;
+        -webkit-box-shadow: 0 0 0 1000px #111a2e inset !important;
+    }
+    .stTextInput input:focus, .stTextArea textarea:focus {
         border: 1px solid #8b5cf6 !important;
         box-shadow: 0 0 0 2px rgba(139,92,246,.2) !important;
     }
@@ -75,8 +107,21 @@ st.markdown(
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px; background: #111a2e; padding: 7px; border-radius: 14px;
     }
-    .stTabs [data-baseweb="tab"] { border-radius: 10px; color: #cbd5e1; }
+    .stTabs [data-baseweb="tab"] { border-radius: 10px; color: #fff; }
     .stTabs [aria-selected="true"] { background: #6d5dfc !important; color: white !important; }
+    [data-testid="stExpander"] summary,
+    [data-testid="stExpander"] summary span,
+    [data-testid="stExpander"] [data-testid="stMarkdownContainer"] {
+        color: #fff !important;
+    }
+    [data-testid="stAlert"] p,
+    [data-testid="stAlert"] span,
+    [data-testid="stAlert"] div {
+        color: #fff !important;
+    }
+    [data-testid="stCode"] code {
+        color: #fff !important;
+    }
     #MainMenu, footer { visibility: hidden; }
     @media (max-width: 800px) {
         .hero-panel { min-height: auto; padding: 28px; }
@@ -191,8 +236,8 @@ def show_authentication():
             """
             <div style="text-align:center; margin-bottom:20px;">
                 <div style="font-size:38px;">🔐</div>
-                <h2 style="margin-bottom:5px;">Welcome back</h2>
-                <p style="color:#94a3b8;">Sign in to your security dashboard</p>
+                <h2 style="margin-bottom:5px;color:#fff;">Welcome back</h2>
+                <p style="color:#fff;">Sign in to your security dashboard</p>
             </div>
             """,
             unsafe_allow_html=True,
@@ -282,7 +327,7 @@ def show_authentication():
                 st.rerun()
 
         st.markdown(
-            "<p style='text-align:center;color:#64748b;font-size:12px;'>"
+            "<p style='text-align:center;color:#fff;font-size:12px;'>"
             "🛡️ Your account is protected with secure authentication</p>",
             unsafe_allow_html=True,
         )
@@ -431,6 +476,13 @@ def show_dashboard():
         fig = px.pie(
             chart_data, names="Email Type", values="Count",
             title="Email Threat Distribution", hole=0.4
+        )
+        fig.update_layout(
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font={"color": "#ffffff"},
+            title={"font": {"color": "#ffffff"}},
+            legend={"font": {"color": "#ffffff"}},
         )
         st.plotly_chart(fig, use_container_width=True)
     else:
